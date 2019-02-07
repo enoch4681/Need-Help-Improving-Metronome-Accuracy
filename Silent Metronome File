@@ -1,0 +1,48 @@
+#include <LiquidCrystal.h>
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+//------------------------------------------------
+#define MIN_BPM 0      // minimum bpm value
+#define MAX_BPM 200     // maximum bpm value
+
+//------------------------------------------------
+
+//---------------------------------------------------------------
+int bpm;                // bpm value
+//---------------------------------------------------------------
+
+void setup() {
+  // put your setup code here, to run once:
+  lcd.begin(16, 2);
+
+  pinMode (13, OUTPUT);
+
+  pinMode (A0, INPUT);
+
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Serial.print(A0);
+  
+
+  int potValue = analogRead(A0);
+
+  digitalWrite (13, HIGH);
+
+  delay (potValue);
+
+  digitalWrite (13, LOW);
+
+  delay (potValue);
+  
+  bpm = map(analogRead(A0), 0, 1024, MAX_BPM, MIN_BPM);
+  lcd.print("bpm ");
+  lcd.setCursor(0,0); 
+ 
+   lcd.print(bpm);
+   lcd.print(" ");
+  
+}
